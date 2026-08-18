@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "onkanat.org"
+description = "Ücretsiz ve açık kaynak mühendislik yazılımlarını keşfetmeyi, öğrenmeyi ve paylaşmayı kolaylaştıran modern Türkçe kaynak platformu."
+version = "1.0.0"
+id = "artifacts/onkanat-web"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21912
+
+[services.development]
+run = "pnpm --filter @workspace/onkanat-web run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/onkanat-web", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/onkanat-web/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21912"
+BASE_PATH = "/"
